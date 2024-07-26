@@ -52,6 +52,17 @@ Proyek ini menggunakan arsitektur modular berbasis fitur. Berikut adalah struktu
 ```bash
 $ npm install
 ```
+## Setup Database Using Docker
+
+```bash
+$ docker compose  -f "docker-compose.yml" up -d --build postgres 
+```
+## Prisma Migration
+```bash
+$ npx prisma migrate dev --name init
+# Input data with seeder
+$ npx prisma db seed
+```
 
 ## Running the app
 
