@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  nest-api:
+    container_name: rest-api-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+      
+  postgres:
+    image: postgres:alpine3.19
+    container_name: rest-api-app-db
+    restart: always
+    ports:
+      - '5432:5432'
+    env_file:
+      - .env
+    volumes:
+      - postgres_dev:/var/lib/postgresql/data
+
+volumes:
+  postgres_dev:
+    name: api-app
