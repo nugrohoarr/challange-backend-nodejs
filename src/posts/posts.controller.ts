@@ -1,11 +1,10 @@
-import { Controller, Get, Post, Body, Param, Put, Delete, Res, HttpStatus, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, Res, HttpStatus, Req, ParseIntPipe } from '@nestjs/common';
 import { Response } from 'express';
 import { PostsService } from './posts.service';
 import { CreatePostDto, UpdatePostDto } from './dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('posts')
-@ApiBearerAuth()  // Add this if you have JWT or other auth methods
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
@@ -62,7 +61,7 @@ export class PostsController {
   @ApiResponse({ status: 404, description: 'Post not found.' })
   @ApiResponse({ status: 500, description: 'Server Error, cannot fetch post.' })
   async getPostById(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Res() res: Response
   ): Promise<Response> {
     try {
@@ -93,7 +92,7 @@ export class PostsController {
   @ApiResponse({ status: 403, description: 'Forbidden to update this post.' })
   @ApiResponse({ status: 500, description: 'Server Error, cannot update post.' })
   async updatePost(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
     @Req() req: any,
     @Res() res: Response
@@ -127,7 +126,7 @@ export class PostsController {
   @ApiResponse({ status: 403, description: 'Forbidden to delete this post.' })
   @ApiResponse({ status: 500, description: 'Server Error, cannot delete post.' })
   async deletePost(
-    @Param('id') id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Req() req: any,
     @Res() res: Response
   ): Promise<Response> {
